@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PRRX HEX Control Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      color: white;
+      overflow: hidden;
+    }
+
+    #tsparticles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .animated-heading {
+      font-size: 36px;
+      font-weight: bold;
+      color: #00ccff;
+      text-align: center;
+      margin-top: 40px;
+      animation: glow 2s ease-in-out infinite alternate;
+      text-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff;
+      z-index: 2;
+      position: relative;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff;
+      }
+      to {
+        text-shadow: 0 0 20px #00e1ff, 0 0 40px #00e1ff;
+      }
+    }
+
+    .center-box {
+      position: relative;
+      z-index: 2;
+      margin: 50px auto;
+      width: 400px;
+      max-width: 90%;
+      padding: 30px;
+      background: rgba(0, 0, 50, 0.6);
+      border-radius: 20px;
+      box-shadow: 0 0 30px #00ccff;
+      backdrop-filter: blur(15px);
+      text-align: center;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .control-button {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      padding: 15px;
+      font-size: 16px;
+      color: #fff;
+      background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet);
+      background-size: 1400% 1400%;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      animation: rainbow 10s linear infinite;
+      transition: transform 0.3s ease;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    }
+
+    .control-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255,255,255,0.6);
+    }
+
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="tsparticles"></div>
+
+<h1 class="animated-heading">WELCOME TO PRRX HEX CONTROL PANEL</h1>
+
+<div class="center-box">
+  <button class="control-button" onclick="sendAction('AIMBOT HEAD')">AIMBOT HEAD (+)</button>
+  <button class="control-button" onclick="sendAction('CHMAS MENU')">CHAMS MENU</button>
+  <button class="control-button" onclick="sendAction('BLU CHAMS')">BLU CHAMS</button>
+   <button class="control-button" onclick="sendAction('3D CHAMS')">3D CHAMS</button>
+  <button class="control-button" onclick="sendAction('SNIPER SCOPE')">SNIPER SCOPE</button>
+  <button class="control-button" onclick="sendAction('SNIPER SWITCH')">SNIPER SWITCH</button>
+  <button class="control-button" onclick="sendAction('M82B SWITCH')">M82B SWITCH</button>
+</div>
+
+<script>
+  function sendAction(action) {
+    fetch(`http://localhost:5000/control?action=${action}`)
+      .then(response => response.json())
+      .then(data => {
+        alert(`Action: ${action} performed!`);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
+  tsParticles.load("tsparticles", {
+    fullScreen: { enable: false },
+    background: { color: { value: "#000" } },
+    particles: {
+      number: { value: 100 },
+      color: { value: "#00ccff" },
+      shape: { type: "circle" },
+      opacity: { value: 0.5 },
+      size: { value: { min: 1, max: 5 } },
+      move: {
+        enable: true,
+        speed: 1,
+        direction: "none",
+        random: true,
+        straight: false,
+        outModes: "out"
+      }
+    },
+    interactivity: {
+      events: {
+        onHover: { enable: true, mode: "repulse" },
+        onClick: { enable: true, mode: "push" }
+      },
+      modes: {
+        repulse: { distance: 100 },
+        push: { quantity: 4 }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
+
